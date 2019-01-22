@@ -189,22 +189,41 @@ const palindrome = str => {
 // 'east', 'cars',
 // group them, and then pust to another array
 
-//sort the word, if both words are equal then its an anagram
-
+//Better implementation:
+/* 
+1. Normalize and sort the word, if both words are equal then its an anagram
+2. Use a try...catch block to group words of the same keys, and array value => ('aest', [east, teas, eats])
+3. In the catch block, if the hashmap is initially empty, then just push the word as its first instance. you also need a way to capture the keys so you can retrieve the values and push it to a multidimensional array. 
+4. Using .push & .get (w/ keys array), push values in a multi-dimensional array
+*/
 
 const anagram = wordArray => {
   const hashmap = new Map();
-
-  wordArray.forEach( word => {
-    console.log(word);
-    for(let i=0; i < word.length; i++) {
-      hashmap.set(word, 1);
-      
+  let keysArr = [];
+  let anagramArr = [];
+  wordArray.forEach( word => { //iterate through the entire array sorting each word
+    let sortedWord = word
+      .toLowerCase()
+      .split('')
+      .sort()
+      .join('');
+    //console.log('sortedWord',sortedWord);
+   
+    try { //check the entire sorted array for duplicates, which means that the word at that position is an anagram
+      let groupedArr = hashmap.get(sortedWord);
+      hashmap.set(sortedWord, [...groupedArr, word]); //if sortedWord is an anagram, then return the value as the array of those words
+      //console.log('hashmap',hashmap);
+    } catch(e) { 
+      hashmap.set(sortedWord, [word]); //in the first iteration, whent he hashmap is empty, just push the word in the hashmap
+      keysArr.push(sortedWord); //also push the keys so we can use it later to get the anagramArr
     }
   });
+  //using the keys array, push the values in the current hashmap
+  for (let key of keysArr) {
+    anagramArr.push(hashmap.get(key));
+  }
+  return anagramArr;
 };
 
-
-
-anagram(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']);
+console.log(anagram(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']));
 
