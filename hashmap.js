@@ -175,5 +175,36 @@ const palindrome = str => {
   return true;
 };
 
-console.log(palindrome('racecar'));
-console.log(palindrome('north'));
+// console.log(palindrome('racecar'));
+// console.log(palindrome('north'));
+
+/* ===== ANAGRAM GROUPING ===== */
+//input:['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']
+//output: [['east', 'teas', 'eats'], ['cars', 'arcs'], ['acre', 'race']]
+
+// hashmap: | 'east' | 'teas' | 'eats' | | | | |
+// 1) check to see if the next iteration has all of the characters 
+// 2) if not, go to next iteration 'acre'
+// 3) if all characters match, push to hashmap 'teas'
+// 'east', 'cars',
+// group them, and then pust to another array
+
+//sort the word, if both words are equal then its an anagram
+
+
+const anagram = wordArray => {
+  const hashmap = new Map();
+
+  wordArray.forEach( word => {
+    console.log(word);
+    for(let i=0; i < word.length; i++) {
+      hashmap.set(word, 1);
+      
+    }
+  });
+};
+
+
+
+anagram(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']);
+
